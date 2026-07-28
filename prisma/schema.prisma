@@ -54,7 +54,7 @@ model Trade {
   openedAt DateTime  @default(now())
   closedAt DateTime?
 
-  userId Int  @unique
+  userId Int  
   user   User @relation(fields: [userId], references: [id])
 }
 
@@ -82,7 +82,7 @@ model Watchlist {
 
 
 model UserProfile {
-  id Int @default(autoincrement())
+  id Int @id @default(autoincrement())
 
   firstName String
   lastName String

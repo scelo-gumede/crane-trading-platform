@@ -25,19 +25,25 @@ export const loginAction = async (previousState:any,
         }
     }
 
-   const result = await signIn("credentials", {
-  email,
-  password,
-  redirect: false,
-});
+  try {
+    await signIn("credentials", {
+      email,
+      password,
+      redirect: false,
+    });
 
-if (result?.error) {
-  return {
-    success: false,
-    message: "Invalid email or password",
-  };
-}
+    redirect("/dashboard");
+  } catch (error) {
+    if (error instanceof AuthError) {
+      if (error.type === "CredentialsSignin") {
+        return {
+          success: false,
+          message: "Invalid email or password",
+        };
+      }
+    }
 
-redirect("/dashboard");
+    throw error;
+  }
    
 }

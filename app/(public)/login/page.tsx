@@ -10,6 +10,7 @@ import { z } from "zod";
 import {useActionState , startTransition} from "react";
 import { loginAction } from '@/actions/login';
 import Link from 'next/link';
+import { buttonVariants } from '@/components/ui/button';
 
 
 export type loginSchemaType = z.infer<typeof loginSchema>
@@ -29,21 +30,22 @@ const page = () => {
         })
     }
 
-    console.log(state)
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col gap-4 w-[400px] mx-auto mt-20'>
         <Field  >
             <FieldLabel>Email</FieldLabel>
             <Input type="email" {...register("email")}  placeholder="Enter your email" />
-            {errors.email && <span>{errors.email.message}</span>} 
+            {errors?.email?.message && <span className='text-red-700'>{errors.email.message}</span>} 
         </Field>
         <Field>
             <FieldLabel>Password</FieldLabel>
             <Input type="password" {...register("password")} placeholder="Enter your password" />
+            {errors?.password?.message && <span  className='text-red-700'>{errors.password.message}</span>}
         </Field>
         <Button onClick={handleSubmit(onSubmit)} className='cursor-pointer'>Login</Button>  
-        <Button  className='cursor-pointer' variant="outline"><Link href="register">register</Link></Button>
+        <Link className={buttonVariants({variant:"outline"})} href="register">Register</Link>
+        {state.message && <span className='text-red-700'>{state.message}</span>}
     </form>
   )
 }

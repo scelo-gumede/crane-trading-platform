@@ -3,7 +3,7 @@ import { prisma } from "@/lib/prisma"
 import { registerSchema, registerSchemaType } from "@/schema/auth/auth"
 import bcrypt from "bcryptjs"
 import { redirect } from "next/navigation"
-
+import { Prisma } from "@/generated/prisma/client"
 import { AuthError } from "next-auth"
 
 export const registerAction = async (previousState:any,data:any)=>{
@@ -33,12 +33,17 @@ export const registerAction = async (previousState:any,data:any)=>{
     })
        
     }catch(error){
-        console.log(error)
+       if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === "P2002"){
         return {
-            message:"an error occured scelo",
-            success:false
+            success: false,
+            message: "An account with this email already exists.",
+        };
         }
 
+    return {
+    success: false,
+    message: "Something went wrong.",
+  };
     }
 
     

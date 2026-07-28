@@ -12,12 +12,85 @@ datasource db {
   provider = "postgresql"
 }
 
-
 model User {
-  id        Int      @id @default(autoincrement())
-  email     String   @unique
-  password  String
+  id       Int    @id @default(autoincrement())
+  email    String @unique
+  password String
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  wallet       Wallet?
+  userProfile  UserProfile?
+  trades       Trade[]
+  watchList    Watchlist[]
+  transactions Transaction[]
+}
+
+model Wallet {
+  id Int @id @default(autoincrement())
+
+  balance Decimal @default(10000)
+
+  userId Int  @unique
+  user   User @relation(fields: [userId], references: [id])
+}
+
+model Trade {
+  id Int @id @default(autoincrement())
+
+  symbol String
+  side   String
+
+  volume Float
+
+  entryPrice Decimal
+  exitPrice  Decimal?
+
+  profitLoss Decimal?
+
+  status String
+
+  openedAt DateTime  @default(now())
+  closedAt DateTime?
+
+  userId Int  @unique
+  user   User @relation(fields: [userId], references: [id])
+}
+
+model Transaction {
+  id Int @id @default(autoincrement())
+
+  amount Decimal
+
+  type String
+
+  createdAt DateTime @default(now())
+
+  userId Int
+  user   User @relation(fields: [userId], references: [id])
+}
+
+model Watchlist {
+  id Int @id @default(autoincrement())
+
+  symbol String
+
+  userId Int
+  user   User @relation(fields: [userId], references: [id])
+}
+
+
+model UserProfile {
+  id Int @default(autoincrement())
+
+  firstName String
+  lastName String
+
+  taxNumber String?
+  region String?
+  phone String?
+
+  userId Int @unique
+  user User @relation(fields:[userId], references:[id])
 }

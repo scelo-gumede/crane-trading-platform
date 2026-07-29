@@ -33,6 +33,8 @@ const page = () => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col gap-4 w-[400px] mx-auto mt-20'>
+        <header className='text-4xl text-center font-bold'>Welcome Back</header>
+        
         <Field  >
             <FieldLabel>Email</FieldLabel>
             <Input type="email" {...register("email")}  placeholder="Enter your email" />
@@ -44,7 +46,7 @@ const page = () => {
             {errors?.password?.message && <span  className='text-red-700'>{errors.password.message}</span>}
         </Field>
         <Button onClick={handleSubmit(onSubmit)} className='cursor-pointer'>Login</Button>  
-        <Link className={buttonVariants({variant:"outline"})} href="register">Register</Link>
+        <p className='text-center'>Don't have an account? <Link href="register" className='font-bold hover:underline'>Register</Link></p>
         {state.message && <span className='text-red-700'>{state.message}</span>}
     </form>
   )

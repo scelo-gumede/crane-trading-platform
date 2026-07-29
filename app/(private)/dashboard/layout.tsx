@@ -1,5 +1,5 @@
-
-
+import { SidebarProvider,SidebarTrigger } from "@/components/ui/sidebar"
+import AppSidebar from "@/components/dashboard/app-sidebar"
 
 
 
@@ -11,9 +11,12 @@ export default function BlogLayout({
 
 
     
-  return <section>
-        
-    {children}
+  return <SidebarProvider>
+        <AppSidebar />
+      <main>
+        <SidebarTrigger className="cursor-pointer" />
+      {children}
+      </main>
     
-    </section>
+    </SidebarProvider>
 }
